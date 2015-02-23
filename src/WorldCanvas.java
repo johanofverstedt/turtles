@@ -21,6 +21,10 @@ public class WorldCanvas extends JPanel {
 		drawLine(0, height, width, 0, new Color(255, 0, 0));
 	}
 
+	//
+	//  Persistent drawing methods
+	//
+
 	public void clear() {
 		Graphics2D g = img.createGraphics();
 		g.setColor(this.bgrColor);
@@ -34,6 +38,10 @@ public class WorldCanvas extends JPanel {
 		g.drawLine(x1, y1, x2, y2);
 		g.dispose();
 	}
+
+	//
+	//  Methods for redrawing to the screen
+	//
 
 	private void paintTurtle(Graphics g, Turtle t) {
 		int size = t.getSize();

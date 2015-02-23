@@ -45,6 +45,17 @@ public class World {
 		canvas.repaint();
 	}
 
+	public String toString() {
+		String s = "{World(" + width + ", " + height + ")";
+		if(this.turtles.isEmpty())
+			return s + "}";
+		s += turtles.get(0);
+		for(int i = 0; i < turtles.size(); ++i) {
+			s += ", " + turtles.get(i);
+		}
+		return s + "}";
+	}
+
 	void drawPath(Turtle t, int xOld, int yOld, int xNew, int yNew) {
 		this.canvas.drawLine(xOld, yOld, xNew, yNew, t.getColor());
 	}

@@ -74,6 +74,11 @@ public class Turtle {
 		this.drawPathFlag = false;
 	}
 
+	public String toString() {
+		String s = "{Turtle(x: " + this.x + ", y: " + this.y + ")}";
+		return s;
+	}
+
 	//
 	//  Core movement and update methods
 	//
