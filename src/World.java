@@ -52,8 +52,7 @@ public class World {
 	private void createWindow() {
 		this.frame = new JFrame("World");
 
-		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//this.frame.setPreferredSize(new Dimension(width, height));
+		this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		this.canvas = new WorldCanvas(this.width, this.height, this.turtles);
 
