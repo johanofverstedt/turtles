@@ -34,6 +34,10 @@ public class Turtle {
 		w.add(this);
 	}
 
+	//
+	//  Getters (and some setters) for the turtle attributes
+	//
+
 	public World getWorld() {
 		return this.world;
 	}
@@ -70,19 +74,18 @@ public class Turtle {
 		this.drawPathFlag = false;
 	}
 
-	public void turn(int angle) {
-		this.direction += angle;
+	//
+	//  Core movement and update methods
+	//
 
-		updateWorld();
-	}
-
-	public void move(int step) {
-		double dirRads = Math.PI * (this.direction / 180.0);
-		int xStep = (int)Math.round(Math.cos(dirRads) * step);
-		int yStep = (int)Math.round(Math.sin(dirRads) * step);
-
-		moveTo(x + xStep, y + yStep);
-	}
+	/**
+	 *	moveTo is the basic movement method which all other movement methods
+	 *  should call. Handles drawing of the turtle path, keeping the turtle
+	 *  inside the world and world redrawing.
+	 *
+	 *	@param x X-coordinate the turtle will go to.
+	 *  @param y Y-coordinate the turtle will go to.
+	 */
 
 	public void moveTo(int x, int y) {
 		int xOld = this.x;
@@ -108,6 +111,12 @@ public class Turtle {
 		updateWorld();
 	}
 
+	public void turn(int angle) {
+		this.direction += angle;
+
+		updateWorld();
+	}
+
 	public void turnTo(int x, int y) {
 		if(this.x == x && this.y == y)
 			return;
@@ -121,4 +130,22 @@ public class Turtle {
 	private void updateWorld() {
 		this.world.repaint();		
 	}
+
+	//
+	//  Prebuilt movement methods
+	//
+
+	public void move(int step) {
+		double dirRads = Math.PI * (this.direction / 180.0);
+		int xStep = (int)Math.round(Math.cos(dirRads) * step);
+		int yStep = (int)Math.round(Math.sin(dirRads) * step);
+
+		moveTo(x + xStep, y + yStep);
+	}
+
+	//
+	//  Write your own methods hereafter!
+	//
+
+
 }
