@@ -42,6 +42,10 @@ public class SampleProgram {
 		Thread.sleep(1000);
 
 		t1.move(200);
+		for(int i = 0; i < 10000; ++i) {
+			t1.turn(15);
+			t1.move(10);
+		}
 
 		System.out.println("This is a sample program!");
 	}
