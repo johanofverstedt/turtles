@@ -104,14 +104,16 @@ public class Turtle {
 	}
 
 	public String toString() {
-		String s = "Turtle(" + 
+		String result = "Turtle(" + 
 			"x: " + this.x +
 			", y: " + this.y +
+			", direction: " + this.direction +
 			", red: " + this.color.getRed() +
 			", green: " + this.color.getGreen() +
 			", blue: " + this.color.getBlue() +
 			")";
-		return s;
+
+		return result;
 	}
 
 	//
@@ -151,8 +153,13 @@ public class Turtle {
 		updateWorld();
 	}
 
-	public void turn(int angle) {
-		this.direction += angle;
+	public void turn(int degrees) {
+		//Add the angle to the current direction
+		//and restrict the stored direction to
+		//a domain of 0-359
+		this.direction = (this.direction + degrees) % 360;
+		if(this.direction < 0)
+			this.direction += 360;
 
 		updateWorld();
 	}
