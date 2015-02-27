@@ -42,7 +42,7 @@ public class SampleProgram {
 		Thread.sleep(1000);
 
 		t1.move(200);
-		for(int i = 0; i < 10000; ++i) {
+		for(int i = 0; i < 100000; ++i) {
 			t1.turn(15);
 			t1.move(10);
 		}
@@ -57,7 +57,7 @@ public class SampleProgram {
 					t1.enablePath();
 			}
 			t1.turn((int)(Math.random() * 100)-50);
-			t1.move((int)(Math.random() * 20));
+			t1.move(3 + (int)(Math.random() * 10));
 			Thread.sleep(200);
 		}
 		System.out.println(t1);

@@ -33,11 +33,24 @@ public class Turtle {
 	}
 
 	public Turtle(World w, int x, int y) {
+		if(w == null)
+			throw new RuntimeException("The provided world is null. Turtles can not live without a world.");
+
 		this.world = w;
+
+		if(x < 0)
+			x = 0;
+		if(y < 0)
+			y = 0;
+		if(x >= w.getWidth())
+			x = w.getWidth() - 1;
+		if(y >= w.getHeight())
+			y = w.getHeight() - 1;
+
 		this.x = x;
 		this.y = y;
 
-		//Randomize turle color
+		//Randomize turtle color
 		this.color = Color.getHSBColor((float)Math.random(), 0.25f + 0.65f * (float)Math.random(), 0.5f);
 		this.limbColor = this.color.brighter();
 
@@ -45,6 +58,9 @@ public class Turtle {
 		this.drawPathFlag = true;
 
 		w.add(this);
+
+		//Redraw the world to immediately display the new turtle!
+		this.updateWorld();
 	}
 
 	//
