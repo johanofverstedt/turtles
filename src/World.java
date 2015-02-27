@@ -154,9 +154,7 @@ public class World {
 			final int SIZE = 16;
 			final int HALF_SIZE = SIZE / 2;
 			final int HEAD_SIZE = 10;
-			final int HALF_HEAD_SIZE = HEAD_SIZE / 2;
 			final int LEG_SIZE = 6;
-			final int HALF_LEG_SIZE = LEG_SIZE / 2;
 
 			if(!t.isVisible())
 				return;
