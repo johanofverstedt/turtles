@@ -47,6 +47,20 @@ public class SampleProgram {
 			t1.move(10);
 		}
 
+		Thread.sleep(1000);
+
+		for(int i = 0; i < 100; ++i) {
+			if(i % 20 == 19) {
+				if(t1.isPathEnabled())
+					t1.disablePath();
+				else
+					t1.enablePath();
+			}
+			t1.turn((int)(Math.random() * 100)-50);
+			t1.move((int)(Math.random() * 20));
+			Thread.sleep(200);
+		}
+
 		System.out.println("This is a sample program!");
 	}
 }

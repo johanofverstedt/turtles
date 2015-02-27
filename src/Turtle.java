@@ -20,8 +20,8 @@ public class Turtle {
 	private int y;
 	private int direction;
 
-	private int size;
 	private Color color;
+	private Color limbColor;
 
 	private boolean visible;
 	private boolean drawPathFlag;
@@ -37,11 +37,10 @@ public class Turtle {
 		this.x = x;
 		this.y = y;
 
-		this.size = 10;
 		this.color = new Color((int)(Math.random() * 256),
 			(int)(Math.random() * 256),
 			(int)(Math.random() * 256));
-		//new Color(0, 178, 0);
+		this.limbColor = this.color.brighter();//new Color((int)(this.color.red * 1.1))
 
 		this.visible = true;
 		this.drawPathFlag = true;
@@ -69,20 +68,20 @@ public class Turtle {
 		return this.direction;
 	}
 
-	public int getSize() {
-		return this.size;
-	}
-
 	public Color getColor() {
 		return this.color;
 	}
 
-	public void setSize(int size) {
-		this.size = size;
+	public Color getLimbColor() {
+		return this.limbColor;
 	}
 
 	public void setColor(int red, int green, int blue) {
 		this.color = new Color(red, green, blue);
+	}
+
+	public void setLimbColor(int red, int green, int blue) {
+		this.limbColor = new Color(red, green, blue);
 	}
 
 	public boolean isVisible() {
@@ -91,6 +90,10 @@ public class Turtle {
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+
+	public boolean isPathEnabled() {
+		return this.drawPathFlag;
 	}
 
 	public void enablePath() {

@@ -15,6 +15,7 @@
 import java.util.ArrayList;
 import java.awt.*;
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 
 public class World {
 	private int width;
@@ -86,5 +87,103 @@ public class World {
 		frame.setVisible(true);
 
 		frame.repaint();
+	}
+
+
+	private class WorldCanvas extends JPanel {
+		private BufferedImage img;
+		private Color bgrColor;
+		private ArrayList<Turtle> turtles;
+
+		WorldCanvas(int width, int height, ArrayList<Turtle> turtles) {
+			this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+			this.bgrColor = new Color(255, 255, 255);
+			this.turtles = turtles;
+			
+			this.setPreferredSize(new Dimension(width, height));
+
+			clear();
+			drawLine(0, 0, width, height, new Color(128, 128, 128));
+			drawLine(0, height, width, 0, new Color(255, 0, 0));
+		}
+
+		//
+		//  Persistent drawing methods
+		//
+
+		public void clear() {
+			Graphics2D g = img.createGraphics();
+			g.setColor(this.bgrColor);
+			g.fillRect(0, 0, img.getWidth(), img.getHeight());
+			g.dispose();
+		}
+
+		public void drawLine(int x1, int y1, int x2, int y2, Color color) {
+			Graphics2D g = img.createGraphics();
+			g.setColor(color);
+			g.drawLine(x1, y1, x2, y2);
+			g.dispose();
+		}
+
+		//
+		//  Methods for redrawing to the screen
+		//
+
+		private int circularXOffset(double angle, double radius) {
+			return (int)Math.round(Math.cos(angle) * radius);
+		}
+		private int circularYOffset(double angle, double radius) {
+			return (int)Math.round(Math.sin(angle) * radius);
+		}
+
+		private void paintTurtle(Graphics g, Turtle t) {
+			if(!t.isVisible())
+				return;
+
+			int xPos = t.getXPos();
+			int yPos = t.getYPos();
+			double dirRads = (Math.PI/180.0) * t.getDirection();
+
+			int size = 16;//t.getSize();
+			int halfSize = size / 2;
+			
+			int headSize = 8;//(int)(size / 2);
+			int halfHeadSize = headSize / 2;
+
+			int legSize = 6;//(int)(size / 2.5);
+			int halfLegSize = legSize / 2;
+
+			Color color = t.getColor();
+			Color limbColor = t.getLimbColor();
+
+			//Draw head
+			int headXPos = xPos + circularXOffset(dirRads, halfSize+2);//(int)Math.round((Math.cos(dirRads) * halfSize));
+			int headYPos = yPos + circularYOffset(dirRads, halfSize+2);//(int)Math.round((Math.sin(dirRads) * halfSize));
+			g.setColor(limbColor);
+			g.fillOval(headXPos - halfHeadSize, headYPos - halfHeadSize, headSize, headSize);
+
+			//Draw legs
+			for(int i = 0; i < 4; ++i) {
+				int legXPos = xPos + circularXOffset(dirRads + 2.0 * Math.PI * ((i+1)/5.0), halfSize+1);//(int)Math.round(Math.cos(dirRads + 2.0 * Math.PI * ((i+1)/5.0)) * (halfSize));
+				int legYPos = yPos + circularYOffset(dirRads + 2.0 * Math.PI * ((i+1)/5.0), halfSize+1);//(int)Math.round(Math.sin(dirRads + 2.0 * Math.PI * ((i+1)/5.0)) * (halfSize));
+				g.fillOval(legXPos - halfLegSize, legYPos - halfLegSize, legSize, legSize);
+			}
+
+			//Draw body
+			g.setColor(color);
+			g.fillOval(t.getXPos() - halfSize, t.getYPos() - halfSize, size, size);
+		}
+
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+
+			Graphics2D g2 = (Graphics2D)g;
+			g2.drawRenderedImage(this.img, null);
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+			for(Turtle t : this.turtles) {
+				paintTurtle(g, t);
+			}
+		}
 	}
 }
