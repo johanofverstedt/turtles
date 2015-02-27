@@ -103,8 +103,6 @@ public class World {
 			this.setPreferredSize(new Dimension(width, height));
 
 			clear();
-			drawLine(0, 0, width, height, new Color(128, 128, 128));
-			drawLine(0, height, width, 0, new Color(255, 0, 0));
 		}
 
 		//
@@ -120,8 +118,17 @@ public class World {
 
 		public void drawLine(int x1, int y1, int x2, int y2, Color color) {
 			Graphics2D g = img.createGraphics();
+
+			//Enable anti-aliasing to make the lines look pretty
+			Object previousAntiAliasHint = g.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
 			g.setColor(color);
 			g.drawLine(x1, y1, x2, y2);
+
+			//Restore previous anti-aliasing mode
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, previousAntiAliasHint);
+
 			g.dispose();
 		}
 
@@ -137,6 +144,13 @@ public class World {
 		}
 
 		private void paintTurtle(Graphics g, Turtle t) {
+			final int SIZE = 16;
+			final int HALF_SIZE = SIZE / 2;
+			final int HEAD_SIZE = 10;
+			final int HALF_HEAD_SIZE = HEAD_SIZE / 2;
+			final int LEG_SIZE = 6;
+			final int HALF_LEG_SIZE = LEG_SIZE / 2;
+
 			if(!t.isVisible())
 				return;
 
@@ -144,46 +158,48 @@ public class World {
 			int yPos = t.getYPos();
 			double dirRads = (Math.PI/180.0) * t.getDirection();
 
-			int size = 16;//t.getSize();
-			int halfSize = size / 2;
-			
-			int headSize = 8;//(int)(size / 2);
-			int halfHeadSize = headSize / 2;
-
-			int legSize = 6;//(int)(size / 2.5);
-			int halfLegSize = legSize / 2;
-
 			Color color = t.getColor();
 			Color limbColor = t.getLimbColor();
 
 			//Draw head
-			int headXPos = xPos + circularXOffset(dirRads, halfSize+2);//(int)Math.round((Math.cos(dirRads) * halfSize));
-			int headYPos = yPos + circularYOffset(dirRads, halfSize+2);//(int)Math.round((Math.sin(dirRads) * halfSize));
+			int headXPos = xPos + circularXOffset(dirRads, HALF_SIZE+2);
+			int headYPos = yPos + circularYOffset(dirRads, HALF_SIZE+2);
 			g.setColor(limbColor);
-			g.fillOval(headXPos - halfHeadSize, headYPos - halfHeadSize, headSize, headSize);
+			g.fillOval(headXPos - HALF_HEAD_SIZE, headYPos - HALF_HEAD_SIZE, HEAD_SIZE, HEAD_SIZE);
 
 			//Draw legs
 			for(int i = 0; i < 4; ++i) {
-				int legXPos = xPos + circularXOffset(dirRads + 2.0 * Math.PI * ((i+1)/5.0), halfSize+1);//(int)Math.round(Math.cos(dirRads + 2.0 * Math.PI * ((i+1)/5.0)) * (halfSize));
-				int legYPos = yPos + circularYOffset(dirRads + 2.0 * Math.PI * ((i+1)/5.0), halfSize+1);//(int)Math.round(Math.sin(dirRads + 2.0 * Math.PI * ((i+1)/5.0)) * (halfSize));
-				g.fillOval(legXPos - halfLegSize, legYPos - halfLegSize, legSize, legSize);
+				double legAngle = dirRads + 2.0 * Math.PI * ((i+1)/5.0);
+				int legXPos = xPos + circularXOffset(legAngle, HALF_SIZE+1);
+				int legYPos = yPos + circularYOffset(legAngle, HALF_SIZE+1);
+				g.fillOval(legXPos - HALF_LEG_SIZE, legYPos - HALF_LEG_SIZE, LEG_SIZE, LEG_SIZE);
 			}
 
 			//Draw body
 			g.setColor(color);
-			g.fillOval(t.getXPos() - halfSize, t.getYPos() - halfSize, size, size);
+			g.fillOval(t.getXPos() - HALF_SIZE, t.getYPos() - HALF_SIZE, SIZE, SIZE);
 		}
 
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
 
+			//Need to manually cast the Graphics reference to a Graphics2D reference
+			//to make use of better drawing facilities
 			Graphics2D g2 = (Graphics2D)g;
+
+			//Draw back-buffer
 			g2.drawRenderedImage(this.img, null);
+
+			//Enable anti-aliasing to make the turtles look pretty
+			Object previousAntiAliasHint = g2.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 			for(Turtle t : this.turtles) {
 				paintTurtle(g, t);
 			}
+
+			//Restore previous anti-aliasing mode
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, previousAntiAliasHint);
 		}
 	}
 }

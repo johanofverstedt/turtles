@@ -37,10 +37,9 @@ public class Turtle {
 		this.x = x;
 		this.y = y;
 
-		this.color = new Color((int)(Math.random() * 256),
-			(int)(Math.random() * 256),
-			(int)(Math.random() * 256));
-		this.limbColor = this.color.brighter();//new Color((int)(this.color.red * 1.1))
+		//Randomize turle color
+		this.color = Color.getHSBColor((float)Math.random(), 0.5f + 0.4f * (float)Math.random(), 0.5f);
+		this.limbColor = this.color.brighter();
 
 		this.visible = true;
 		this.drawPathFlag = true;
