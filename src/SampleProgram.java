@@ -13,55 +13,55 @@
  */
 
 public class SampleProgram {
-
-	public static void main(String[] args) throws InterruptedException {
-		World w = new World(400, 400);
-
-		Turtle t1 = new Turtle(w, 200, 200);
-		Turtle t2 = new Turtle(w, 100, 120);
-
-		t1.move(20);
-		t1.turn(45);
-		t1.move(20);
-		t1.turn(45);
-		t1.move(20);
-		t1.turn(45);
-		t1.move(20);
-
-		Thread.sleep(1000);
-
-		t1.turn(45);
-		t1.move(20);
-		t2.move(40);
-
-		Thread.sleep(1000);
-
-		t1.turnTo(t2.getXPos(), t2.getYPos());
-		t1.move(120);
-
-		Thread.sleep(1000);
-
-		t1.move(200);
-		for(int i = 0; i < 100000; ++i) {
-			t1.turn(15);
-			t1.move(10);
-		}
-
-		Thread.sleep(1000);
-
-		for(int i = 0; i < 100; ++i) {
-			if(i % 20 == 19) {
-				if(t1.isPathEnabled())
-					t1.disablePath();
-				else
-					t1.enablePath();
-			}
-			t1.turn((int)(Math.random() * 100)-50);
-			t1.move(3 + (int)(Math.random() * 10));
-			Thread.sleep(200);
-		}
-		System.out.println(t1);
-
-		System.out.println("This is a sample program!");
-	}
+  
+  public static void main(String[] args) throws InterruptedException {
+    World w = new World(400, 400);
+    
+    Turtle t1 = new Turtle(w, 200, 200);
+    Turtle t2 = new Turtle(w, 100, 120);
+    
+    t1.move(20);
+    t1.turn(45);
+    t1.move(20);
+    t1.turn(45);
+    t1.move(20);
+    t1.turn(45);
+    t1.move(20);
+    
+    Thread.sleep(1000);
+    
+    t1.turn(45);
+    t1.move(20);
+    t2.move(40);
+    
+    Thread.sleep(1000);
+    
+    t1.turnTo(t2.getXPos(), t2.getYPos());
+    t1.move(120);
+    
+    Thread.sleep(1000);
+    
+    t1.move(200);
+    for(int i = 0; i < 100000; ++i) {
+      t1.turn(15);
+      t1.move(10);
+    }
+    
+    Thread.sleep(1000);
+    
+    for(int i = 0; i < 100; ++i) {
+      if(i % 20 == 19) {
+        if(t1.isPathEnabled())
+          t1.disablePath();
+        else
+          t1.enablePath();
+      }
+      t1.turn((int)(Math.random() * 100)-50);
+      t1.move(3 + (int)(Math.random() * 10));
+      Thread.sleep(200);
+    }
+    System.out.println(t1);
+    
+    System.out.println("This is a sample program!");
+  }
 }
