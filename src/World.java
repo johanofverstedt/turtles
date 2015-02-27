@@ -55,7 +55,7 @@ public class World {
 	}
 
 	public void repaint() {
-		canvas.repaint();
+		this.canvas.repaint();
 	}
 
 	public String toString() {

@@ -57,10 +57,39 @@ public class WorldCanvas extends JPanel {
 	//
 
 	private void paintTurtle(Graphics g, Turtle t) {
+		if(!t.isVisible())
+			return;
+
+		int xPos = t.getXPos();
+		int yPos = t.getYPos();
+		double dirRads = (Math.PI/180.0) * t.getDirection();
+
 		int size = t.getSize();
 		int halfSize = size / 2;
+		
+		int headSize = (int)(t.getSize() / 1.5);
+		int halfHeadSize = headSize / 2;
+
+		int legSize = (int)(t.getSize() / 2);
+		int halfLegSize = legSize / 2;
+
 		Color color = t.getColor();
 
+		//Draw head
+		int headXPos = xPos + (int)(Math.cos(dirRads) * 0.95 * (halfSize + halfHeadSize));
+		int headYPos = yPos + (int)(Math.sin(dirRads) * 0.95 * (halfSize + halfHeadSize));
+		g.setColor(color);
+		g.fillOval(headXPos - halfHeadSize, headYPos - halfHeadSize, headSize, headSize);
+
+		//Draw legs
+		for(int i = 0; i < 4; ++i) {
+			int legXPos = xPos + (int)(Math.cos(dirRads + 2.0 * Math.PI * ((i+1)/5.0)) * 0.95 * (halfSize + halfLegSize));
+			int legYPos = yPos + (int)(Math.sin(dirRads + 2.0 * Math.PI * ((i+1)/5.0)) * 0.95 * (halfSize + halfLegSize));
+			g.setColor(color);
+			g.fillOval(legXPos - halfLegSize, legYPos - halfLegSize, legSize, legSize);
+		}
+
+		//Draw body
 		g.setColor(color);
 		g.fillOval(t.getXPos() - halfSize, t.getYPos() - halfSize, size, size);
 	}

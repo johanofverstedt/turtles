@@ -23,6 +23,7 @@ public class Turtle {
 	private int size;
 	private Color color;
 
+	private boolean visible;
 	private boolean drawPathFlag;
 
 	private World world;
@@ -36,12 +37,13 @@ public class Turtle {
 		this.x = x;
 		this.y = y;
 
-		this.size = 20;
+		this.size = 10;
 		this.color = new Color((int)(Math.random() * 256),
 			(int)(Math.random() * 256),
 			(int)(Math.random() * 256));
 		//new Color(0, 178, 0);
 
+		this.visible = true;
 		this.drawPathFlag = true;
 
 		w.add(this);
@@ -63,6 +65,10 @@ public class Turtle {
 		return this.y;
 	}
 
+	public int getDirection() {
+		return this.direction;
+	}
+
 	public int getSize() {
 		return this.size;
 	}
@@ -77,6 +83,14 @@ public class Turtle {
 
 	public void setColor(int red, int green, int blue) {
 		this.color = new Color(red, green, blue);
+	}
+
+	public boolean isVisible() {
+		return this.visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 	public void enablePath() {
