@@ -38,7 +38,7 @@ public class Turtle {
 		this.y = y;
 
 		//Randomize turle color
-		this.color = Color.getHSBColor((float)Math.random(), 0.5f + 0.4f * (float)Math.random(), 0.5f);
+		this.color = Color.getHSBColor((float)Math.random(), 0.25f + 0.65f * (float)Math.random(), 0.5f);
 		this.limbColor = this.color.brighter();
 
 		this.visible = true;
@@ -104,7 +104,13 @@ public class Turtle {
 	}
 
 	public String toString() {
-		String s = "{Turtle(x: " + this.x + ", y: " + this.y + ")}";
+		String s = "Turtle(" + 
+			"x: " + this.x +
+			", y: " + this.y +
+			", red: " + this.color.getRed() +
+			", green: " + this.color.getGreen() +
+			", blue: " + this.color.getBlue() +
+			")";
 		return s;
 	}
 

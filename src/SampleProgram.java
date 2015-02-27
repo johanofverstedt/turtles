@@ -60,6 +60,7 @@ public class SampleProgram {
 			t1.move((int)(Math.random() * 20));
 			Thread.sleep(200);
 		}
+		System.out.println(t1);
 
 		System.out.println("This is a sample program!");
 	}
