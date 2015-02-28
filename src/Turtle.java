@@ -16,6 +16,10 @@ import java.awt.*;
 import javax.swing.*;
 
 public class Turtle {
+  //
+  //  Turtle attributes
+  //
+
   private int x;
   private int y;
   private int direction;
@@ -28,10 +32,27 @@ public class Turtle {
   
   private World world;
   
+  //
+  //  Turtle constructors
+  //
+
+  /**
+   *  Constructs a turtle and places it at the center of the world.
+   *
+   *  @param w The world which the turtle will reside in.
+   */
   public Turtle(World w) {
     this(w, w.getWidth() / 2, w.getHeight() / 2);
   }
   
+  /**
+   *  Constructs a turtle and places it at the specified position
+   *  in the world.
+   *
+   *  @param w The world which the turtle will reside in.
+   *  @param x X-coordinate of the point where the turtle will start at.
+   *  @param y Y-coordinate of the point where the turtle will start at.
+   */
   public Turtle(World w, int x, int y) {
     if(w == null)
       throw new RuntimeException("The provided world is null. Turtles can not live without a world.");
@@ -67,6 +88,11 @@ public class Turtle {
   //  Getters (and some setters) for the turtle attributes
   //
   
+  /**
+   *  Gets the World-object associated with this turtle.
+   *
+   *  @return The world.
+   */
   public World getWorld() {
     return this.world;
   }
@@ -79,6 +105,12 @@ public class Turtle {
     return this.y;
   }
   
+  /**
+   *  Gets the direction of the turtle in degrees.
+   *  The value is guaranteed to be in domain [0-359].
+   *
+   *  @return The direction in degrees.
+   */
   public int getDirection() {
     return this.direction;
   }
@@ -91,6 +123,13 @@ public class Turtle {
     return this.limbColor;
   }
   
+  /**
+   *  Sets the color of the turtle to the specified RGB color.
+   *
+   *  @param red The red component of the color. [0-255]
+   *  @param green The green component of the color. [0-255]
+   *  @param blue The blue component of the color. [0-255]
+   */
   public void setColor(int red, int green, int blue) {
     this.color = new Color(red, green, blue);
     this.limbColor = this.color.brighter();
@@ -100,6 +139,11 @@ public class Turtle {
     return this.visible;
   }
   
+  /**
+   *  Sets the visibility status of the turtle.
+   *
+   *  @param visible Visibility status. (false hides the turtle and true shows it.)
+   */
   public void setVisible(boolean visible) {
     this.visible = visible;
   }
@@ -132,6 +176,11 @@ public double distanceTo(int x, int y) {
   return Math.sqrt(xDelta*xDelta + yDelta*yDelta);
 }
 
+  /**
+   *  Generates a compact string representation of the turtle.
+   *
+   *  @return The string representation.
+   */
   public String toString() {
     String result = "Turtle(" + 
       "x: " + this.x +
@@ -194,6 +243,7 @@ public double distanceTo(int x, int y) {
     //Add the angle to the current direction
     //and restrict the stored direction to
     //a domain of 0-359
+    degrees = (degrees % 360);
     this.direction = (this.direction + degrees) % 360;
     if(this.direction < 0)
       this.direction += 360;
@@ -201,6 +251,12 @@ public double distanceTo(int x, int y) {
     updateWorld();
   }
   
+  /**
+   *  Turns the turtle to face the point specified by the x- and y-coordinate.
+   *
+   *  @param x X-coordinate of the point which to turn towards.
+   *  @param y Y-coordinate of the point which to turn towards.
+   */
   public void turnTo(int x, int y) {
     if(this.x == x && this.y == y)
       return;
