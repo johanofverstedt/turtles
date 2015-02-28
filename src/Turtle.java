@@ -93,10 +93,7 @@ public class Turtle {
   
   public void setColor(int red, int green, int blue) {
     this.color = new Color(red, green, blue);
-  }
-  
-  public void setLimbColor(int red, int green, int blue) {
-    this.limbColor = new Color(red, green, blue);
+    this.limbColor = this.color.brighter();
   }
   
   public boolean isVisible() {
@@ -153,11 +150,12 @@ public double distanceTo(int x, int y) {
   //
   
   /**
-   * moveTo is the basic movement method which all other movement methods
+   *  Repositions the turtle to the given x- and y-coordinates.
+   *  moveTo is the basic movement method which all other movement methods
    *  should call. Handles drawing of the turtle path, keeping the turtle
    *  inside the world and world redrawing.
    *
-   * @param x X-coordinate the turtle will go to.
+   *  @param x X-coordinate the turtle will go to.
    *  @param y Y-coordinate the turtle will go to.
    */
   
@@ -185,6 +183,13 @@ public double distanceTo(int x, int y) {
     updateWorld();
   }
   
+  /**
+   *  Turns the turtle clockwise by the given integer number of degrees.
+   *  All int-values are valid and the value will wrap around correctly.
+   *
+   *  @param degrees The number of degrees to turn.
+   *  (Clockwise if positive and counter-clockwise if negative.)
+   */
   public void turn(int degrees) {
     //Add the angle to the current direction
     //and restrict the stored direction to
@@ -214,6 +219,13 @@ public double distanceTo(int x, int y) {
   //  Prebuilt movement methods
   //
   
+  /**
+   *  Moves the turtle along its current direction by
+   *  an integer step-size.
+   *
+   *  @param step The delta to move the turtle by.
+   *  (Moves forward if positive and reverse if negative.)
+   */
   public void move(int step) {
     double dirRads = Math.PI * (this.direction / 180.0);
     int xStep = (int)Math.round(Math.cos(dirRads) * step);
