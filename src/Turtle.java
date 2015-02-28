@@ -1,6 +1,6 @@
 
 /**
- * Copyright (c) 2015, Johan Ã–fverstedt <johan.ofverstedt@gmail.com>
+ * Copyright (c) 2015, Johan Öfverstedt <johan.ofverstedt@gmail.com>
  *
  * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
  * provided that the above copyright notice and this permission notice appear in all copies.
@@ -169,12 +169,12 @@ public class Turtle {
    *
    *  @return The Euclidean distance as a double.
    */
-public double distanceTo(int x, int y) {
-  double xDelta = this.x - x;
-  double yDelta = this.y - y;
+  public double distanceTo(int x, int y) {
+    double xDelta = this.x - x;
+    double yDelta = this.y - y;
 
-  return Math.sqrt(xDelta*xDelta + yDelta*yDelta);
-}
+    return Math.sqrt(xDelta*xDelta + yDelta*yDelta);
+  }
 
   /**
    *  Generates a compact string representation of the turtle.
