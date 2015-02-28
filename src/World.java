@@ -62,6 +62,7 @@ public class World {
    */
   public void remove(Turtle t) {
     this.turtles.remove(t);
+    this.repaint();
   }
   
   /**
