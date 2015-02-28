@@ -119,6 +119,22 @@ public class Turtle {
     this.drawPathFlag = false;
   }
   
+  /**
+   *  Calculates the Euclidean distance between
+   *  a turtle and a given other point.
+   *
+   *  @param x The x-coordinate of the other point.
+   *  @param y The y-coordinate of the other point.
+   *
+   *  @return The Euclidean distance as a double.
+   */
+public double distanceTo(int x, int y) {
+  double xDelta = this.x - x;
+  double yDelta = this.y - y;
+
+  return Math.sqrt(xDelta*xDelta + yDelta*yDelta);
+}
+
   public String toString() {
     String result = "Turtle(" + 
       "x: " + this.x +

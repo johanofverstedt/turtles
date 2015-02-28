@@ -29,7 +29,7 @@ public class World {
   private static int worldCount = 0;
   
   /**
-   *  Constructs a world with default size 400 by 400.
+   *  Constructs a world with default size of 400 by 400 pixels.
    */
   public World() {
     this(400, 400);
@@ -142,13 +142,15 @@ public class World {
     this.frame = new JFrame(worldTitle);
     
     this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    
+    frame.setResizable(false);
+    frame.setLocation(10, 10);
+
     this.canvas = new WorldCanvas(this.width, this.height, this.turtles);
     
     frame.add(this.canvas);
     frame.pack();
     frame.setVisible(true);
-    
+
     frame.repaint();
   }
   
