@@ -12,8 +12,6 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-package turtles;
-
 import java.awt.*;
 import javax.swing.*;
 

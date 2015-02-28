@@ -12,8 +12,6 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-package turtles;
-
 import java.util.ArrayList;
 import java.awt.*;
 import javax.swing.*;
@@ -30,11 +28,25 @@ public class World {
   
   private static int worldCount = 0;
   
+  /**
+   *  Constructs a world with default size 400 by 400.
+   */
   public World() {
     this(400, 400);
   }
   
+  /**
+   *  Constructs a world with a specified width and height.
+   *
+   *  @param width The width of the world in pixels.
+   *  @param height The height of the world in pixels.
+   */
   public World(int width, int height) {
+    if(width < 1)
+      throw new RuntimeException("Invalid world width.");
+    if(height < 1)
+      throw new RuntimeException("Invalid world height.");
+
     this.width = width;
     this.height = height;
     
@@ -42,27 +54,45 @@ public class World {
     
     createWindow();
   }
-  
-  public void add(Turtle t) {
-    this.turtles.add(t);
-  }
-  
+
+  /**
+   *  Removes a turtle from the world.
+   *
+   *  @param t A reference to the turtle to remove.
+   */
   public void remove(Turtle t) {
     this.turtles.remove(t);
   }
   
+  /**
+   *  Returns the width of the world in pixels.
+   *
+   *  @return The width of the world in pixels.
+   */
   public int getWidth() {
     return this.width;
   }
   
+  /**
+   *  Returns the height of the world in pixels.
+   *
+   *  @return The height of the world in pixels.
+   */
   public int getHeight() {
     return this.height;
   }
   
+  /**
+   *  Forces a repaint of the world.
+   */
   public void repaint() {
     this.canvas.repaint();
   }
   
+  /**
+   *  Generates a string representation of the world
+   *  and all the turtles in it.
+   */
   public String toString() {
     String s = "{World(" + width + ", " + height + ")";
     if(this.turtles.isEmpty())
@@ -74,10 +104,36 @@ public class World {
     return s + "}";
   }
   
+  //
+  //  Implementation details below here...
+  //  Not intended for the faint of heart!
+  //
+
+  /**
+   *  Package local method which adds
+   *  a turtle to this world.
+   *
+   *  @param t Turtle to be added to the world.
+   */
+  void add(Turtle t) {
+    if(t == null)
+      throw new RuntimeException("Can't add a null turtle reference to the world.");
+
+    this.turtles.add(t);
+  }
+
+  /**
+   *  Package local method which draws a line from
+   *  an old position to the new for a given turtle.
+   */
   void drawPath(Turtle t, int xOld, int yOld, int xNew, int yNew) {
     this.canvas.drawLine(xOld, yOld, xNew, yNew, t.getColor());
   }
   
+  /**
+   *  Creates the world window and sets up the canvas
+   *  which is used to draw the world and turtles.
+   */
   private void createWindow() {
     String worldTitle = "World";
     if(++worldCount > 1)
@@ -91,13 +147,16 @@ public class World {
     
     frame.add(this.canvas);
     frame.pack();
-    
     frame.setVisible(true);
     
     frame.repaint();
   }
   
-  
+  /**
+   *  Private class which implements the drawing
+   *  facilities of the World class and maintains
+   *  the current persistent turtle tracks.
+   */
   private class WorldCanvas extends JPanel {
     private BufferedImage img;
     private Color bgrColor;
