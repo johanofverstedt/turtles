@@ -15,6 +15,19 @@
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ *  Turtle is a class representing a fun-loving reptile residing in
+ *  a World. It contains attributes for x and y position, direction, color, etc.
+ *
+ *  The turtle is dynamic and can be moved, turned, made (in)visible,
+ *  re-colored, etc.
+ *
+ *  Responsibility for drawing the turtle according to its
+ *  attributes belong to the World-class.
+ *
+ *  The idea is to allow expansion of its capabilities by writing
+ *  additional methods for more complex behavior and operations.
+ */
 public class Turtle {
   //
   //  Turtle attributes
@@ -177,7 +190,8 @@ public class Turtle {
   }
 
   /**
-   *  Generates a compact string representation of the turtle.
+   *  Generates a compact string representation of some of the turtle's
+   *  attributes, namely x-coordinate, y-coordinate, direction and color.
    *
    *  @return The string representation.
    */

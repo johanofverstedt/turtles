@@ -17,6 +17,15 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 
+/**
+ *  World is a class representing an environment for Turtles.
+ *
+ *  The world is visualized as a window, and its size can be
+ *  selected upon construction.
+ *
+ *  As the turtles move around, they are redrawn and they leave
+ *  tracks on the background in the form of their linear path.
+ */
 public class World {
   private int width;
   private int height;
