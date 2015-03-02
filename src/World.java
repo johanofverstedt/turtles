@@ -61,8 +61,8 @@ public class World {
    *  @param t A reference to the turtle to remove.
    */
   public void remove(Turtle t) {
-    this.turtles.remove(t);
-    this.repaint();
+    if(this.turtles.remove(t))
+      this.repaint();
   }
   
   /**
@@ -95,12 +95,12 @@ public class World {
    *  and all the turtles in it.
    */
   public String toString() {
-    String s = "{World(" + width + ", " + height + ")";
+    String s = "{World(" + this.width + ", " + this.height + ")";
     if(this.turtles.isEmpty())
       return s + "}";
-    s += turtles.get(0);
-    for(int i = 0; i < turtles.size(); ++i) {
-      s += ", " + turtles.get(i);
+    s += this.turtles.get(0);
+    for(int i = 0; i < this.turtles.size(); ++i) {
+      s += ", " + this.turtles.get(i);
     }
     return s + "}";
   }
@@ -143,16 +143,16 @@ public class World {
     this.frame = new JFrame(worldTitle);
     
     this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    frame.setResizable(false);
-    frame.setLocation(10, 10);
+    this.frame.setResizable(false);
+    this.frame.setLocation(10, 10);
 
     this.canvas = new WorldCanvas(this.width, this.height, this.turtles);
     
-    frame.add(this.canvas);
-    frame.pack();
-    frame.setVisible(true);
+    this.frame.add(this.canvas);
+    this.frame.pack();
+    this.frame.setVisible(true);
 
-    frame.repaint();
+    this.frame.repaint();
   }
   
   /**
@@ -180,16 +180,16 @@ public class World {
     //
     
     public void clear() {
-      Graphics2D g = img.createGraphics();
+      Graphics2D g = this.img.createGraphics();
       
       g.setColor(this.bgrColor);
-      g.fillRect(0, 0, img.getWidth(), img.getHeight());
+      g.fillRect(0, 0, this.img.getWidth(), this.img.getHeight());
       
       g.dispose();
     }
     
     public void drawLine(int x1, int y1, int x2, int y2, Color color) {
-      Graphics2D g = img.createGraphics();
+      Graphics2D g = this.img.createGraphics();
       
       //Enable anti-aliasing to make the lines look pretty
       Object previousAntiAliasHint = g.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
