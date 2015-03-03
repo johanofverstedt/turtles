@@ -169,7 +169,7 @@ public class Turtle {
   }
   
   /**
-   *  Returns true if the turtle is visible and false if it's invisible.
+   *  Returns <code>true</code> if the turtle is visible and <code>false</code> if it's invisible.
    *
    *  @return Visibility flag as a boolean.
    */
@@ -187,7 +187,7 @@ public class Turtle {
   }
   
   /**
-   *  Returns true if path drawing is enabled and false if it's disabled.
+   *  Returns <code>true</code> if path drawing is enabled and <code>false</code> if it's disabled.
    *
    *  @return Path drawing flag as a boolean.
    */
