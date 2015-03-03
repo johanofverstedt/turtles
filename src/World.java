@@ -129,7 +129,11 @@ public class World {
     if(t == null)
       throw new RuntimeException("Can't add a null turtle reference to the world.");
 
-    this.turtles.add(t);
+    //Only add the turtle if it doesn't already exist
+    //in the world to bulletproof the class against
+    //surprising behavior.
+    if(!this.turtles.contains(t))
+      this.turtles.add(t);
   }
 
   /**
