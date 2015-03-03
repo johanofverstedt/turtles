@@ -1,6 +1,6 @@
 
 /**
- * Copyright (c) 2015, Johan Ofverstedt <johan.ofverstedt@gmail.com>
+ * Copyright (c) 2015, Johan Öfverstedt <johan.ofverstedt@gmail.com>
  *
  * Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted,
  * provided that the above copyright notice and this permission notice appear in all copies.
@@ -102,7 +102,7 @@ public class Turtle {
   //
   
   /**
-   *  Gets the World-object associated with this turtle.
+   *  Returns the {@link World} associated with this turtle.
    *
    *  @return The world.
    */
@@ -110,17 +110,27 @@ public class Turtle {
     return this.world;
   }
   
+  /**
+   *  Returns the x-coordinate of the turtle.
+   *
+   *  @return X-coordinate as an integer.
+   */
   public int getXPos() {
     return this.x;
   }
   
+  /**
+   *  Returns the y-coordinate of the turtle.
+   *
+   *  @return Y-coordinate as an integer.
+   */
   public int getYPos() {
     return this.y;
   }
   
   /**
-   *  Gets the direction of the turtle in degrees.
-   *  The value is guaranteed to be in domain [0-359].
+   *  Returns the direction of the turtle in degrees.
+   *  The value is guaranteed to be in domain <code>[0-359]</code>.
    *
    *  @return The direction in degrees.
    */
@@ -128,10 +138,20 @@ public class Turtle {
     return this.direction;
   }
   
+  /**
+   *  Returns the main {@link Color} of the turtle (used to draw its body).
+   *
+   *  @return The color of the body.
+   */
   public Color getColor() {
     return this.color;
   }
   
+  /**
+   *  Returns the {@link Color} of the turtle's limbs (head and legs).
+   *
+   *  @return The color of the limbs.
+   */
   public Color getLimbColor() {
     return this.limbColor;
   }
@@ -148,6 +168,11 @@ public class Turtle {
     this.limbColor = this.color.brighter();
   }
   
+  /**
+   *  Returns true if the turtle is visible and false if it's invisible.
+   *
+   *  @return Visibility flag as a boolean.
+   */
   public boolean isVisible() {
     return this.visible;
   }
@@ -161,14 +186,25 @@ public class Turtle {
     this.visible = visible;
   }
   
+  /**
+   *  Returns true if path drawing is enabled and false if it's disabled.
+   *
+   *  @return Path drawing flag as a boolean.
+   */
   public boolean isPathEnabled() {
     return this.drawPathFlag;
   }
   
+  /**
+   *  Enables drawing of the path when the turtle moves.
+   */
   public void enablePath() {
     this.drawPathFlag = true;
   }
   
+  /**
+   *  Disables drawing of the path when the turtle moves.
+   */
   public void disablePath() {
     this.drawPathFlag = false;
   }
@@ -191,7 +227,10 @@ public class Turtle {
 
   /**
    *  Generates a compact string representation of some of the turtle's
-   *  attributes, namely x-coordinate, y-coordinate, direction and color.
+   *  attributes.
+   *  <p>
+   *  Example: <code>Turtle(x: 57, y: 173, direction: 180, red: 128, green: 57, blue: 34)</code>.
+   *  </p>
    *
    *  @return The string representation.
    */
@@ -215,13 +254,25 @@ public class Turtle {
   /**
    *  Repositions the turtle to the given x- and y-coordinates.
    *  moveTo is the basic movement method which all other movement methods
-   *  should call. Handles drawing of the turtle path, keeping the turtle
-   *  inside the world and world redrawing.
+   *  should call.
+   *  <p>
+   *  When moveTo is called, the following actions are performed:
+   *  </p>
+   *  <ul>
+   *  <li>
+   *    Clamp the position so that the turtle remains inside the world.
+   *  </li>
+   *  <li>
+   *    Draw the turtle's path from the old to new position (if paths are enabled).
+   *  </li>
+   *  <li>
+   *    Redraw the world to display the changes immediately.
+   *  </li>
+   *  </ul>
    *
-   *  @param x X-coordinate the turtle will go to.
-   *  @param y Y-coordinate the turtle will go to.
+   *  @param x X-coordinate the turtle will move to.
+   *  @param y Y-coordinate the turtle will move to.
    */
-  
   public void moveTo(int x, int y) {
     int xOld = this.x;
     int yOld = this.y;
