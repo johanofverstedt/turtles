@@ -17,8 +17,8 @@ public class SampleProgram {
   public static void main(String[] args) throws InterruptedException {
     World w = new World(400, 400);
     
-    Turtle t1 = new Turtle(w, 200, 200);
-    Turtle t2 = new Turtle(w, 100, 120);
+    Turtle t1 = new Turtle(w); //Create Turtle with default position
+    Turtle t2 = new Turtle(w, 100, 120); //Create Turtle with specified position
     
     t1.move(20);
     t1.turn(45);
