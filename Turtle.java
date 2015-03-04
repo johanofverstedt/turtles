@@ -94,7 +94,7 @@ public class Turtle {
     w.add(this);
     
     //Redraw the world to immediately display the new turtle!
-    this.updateWorld();
+    updateWorld();
   }
   
   //
@@ -166,6 +166,8 @@ public class Turtle {
   public void setColor(int red, int green, int blue) {
     this.color = new Color(red, green, blue);
     this.limbColor = this.color.brighter();
+
+    updateWorld();
   }
   
   /**
@@ -184,7 +186,9 @@ public class Turtle {
    */
   public void setVisible(boolean visible) {
     this.visible = visible;
-  }
+ 
+    updateWorld();
+ }
   
   /**
    *  Returns <code>true</code> if path drawing is enabled and <code>false</code> if it's disabled.
