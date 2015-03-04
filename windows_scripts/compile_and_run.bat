@@ -1,6 +1,6 @@
-cd src
+cd ..
 javac World.java Turtle.java SampleProgram.java
 java SampleProgram
-cd ..
+cd windows_scripts
 
 rem pause
