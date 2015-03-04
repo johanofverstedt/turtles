@@ -232,16 +232,15 @@ public class World {
       return (int)Math.round(Math.sin(angle) * radius);
     }
     
-    private void fillCenteredCircle(Graphics g, int x, int y, int size) {
-      int halfSize = size / 2;
-      g.fillOval(x - halfSize, y - halfSize, size, size);
+    private void fillCenteredCircle(Graphics g, int x, int y, int radius) {
+      int diameter = 2 * radius;
+      g.fillOval(x - radius, y - radius, diameter, diameter);
     }
     
     private void paintTurtle(Graphics g, Turtle t) {
-      final int SIZE = 16;
-      final int HALF_SIZE = SIZE / 2;
-      final int HEAD_SIZE = 10;
-      final int LEG_SIZE = 6;
+      final int RADIUS = 8;
+      final int HEAD_RADIUS = 5;
+      final int LEG_RADIUS = 3;
       
       if(!t.isVisible())
         return;
@@ -256,21 +255,21 @@ public class World {
       g.setColor(limbColor);
       
       //Draw head
-      int headXPos = xPos + circularXOffset(dirRads, HALF_SIZE+2);
-      int headYPos = yPos + circularYOffset(dirRads, HALF_SIZE+2);
-      fillCenteredCircle(g, headXPos, headYPos, HEAD_SIZE);
+      int headXPos = xPos + circularXOffset(dirRads, RADIUS+2);
+      int headYPos = yPos + circularYOffset(dirRads, RADIUS+2);
+      fillCenteredCircle(g, headXPos, headYPos, HEAD_RADIUS);
       
       //Draw legs
       for(int i = 0; i < 4; ++i) {
         double legAngle = dirRads + 2.0 * Math.PI * ((i+1)/5.0);
-        int legXPos = xPos + circularXOffset(legAngle, HALF_SIZE+1);
-        int legYPos = yPos + circularYOffset(legAngle, HALF_SIZE+1);
-        fillCenteredCircle(g, legXPos, legYPos, LEG_SIZE);
+        int legXPos = xPos + circularXOffset(legAngle, RADIUS+1);
+        int legYPos = yPos + circularYOffset(legAngle, RADIUS+1);
+        fillCenteredCircle(g, legXPos, legYPos, LEG_RADIUS);
       }
       
       //Draw body
       g.setColor(color);
-      fillCenteredCircle(g, xPos, yPos, SIZE);
+      fillCenteredCircle(g, xPos, yPos, RADIUS);
     }
     
     protected void paintComponent(Graphics g) {
