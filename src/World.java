@@ -12,10 +12,10 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-import java.util.ArrayList;
 import java.awt.*;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
+import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  *  World is a class representing an environment for Turtles.
@@ -27,6 +27,10 @@ import java.awt.image.BufferedImage;
  *  tracks on the background in the form of their linear path.
  */
 public class World {
+  //
+  //  World attributes
+  //
+  
   private int width;
   private int height;
   
