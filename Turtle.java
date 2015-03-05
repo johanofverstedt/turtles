@@ -37,6 +37,8 @@ public class Turtle {
   private int y;
   private int direction;
   
+  private double size = 1.0;
+
   private Color color;
   private Color limbColor;
   
@@ -138,6 +140,32 @@ public class Turtle {
     return this.direction;
   }
   
+  /**
+   *  Returns the scaling factor for the turtle where 1.0
+   *  is the default size and 2.0 is double the default size
+   *  and 0.5 is half the default size.
+   *
+   *  @return Scaling factor of the turtle.
+   */
+  public double getSize() {
+    return this.size;
+  }
+
+  /**
+   *  Sets the scaling factor for the turtle where 1.0
+   *  is the default size and 2.0 is double the default size
+   *  and 0.5 is half the default size.
+   *
+   *  @param size Scaling factor of the turtle.
+   */
+  public void setSize(double size) {
+    if(size < 0.0)
+      size = 0.0;
+    this.size = size;
+
+    updateWorld();
+  }
+
   /**
    *  Returns the main {@link Color} of the turtle (used to draw its body).
    *

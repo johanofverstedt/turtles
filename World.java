@@ -13,6 +13,7 @@
  */
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import java.util.ArrayList;
@@ -225,25 +226,28 @@ public class World {
     //  Methods for redrawing to the screen
     //
     
-    private int circularXOffset(double angle, double radius) {
-      return (int)Math.round(Math.cos(angle) * radius);
+    private double circularXOffset(double angle, double radius) {
+      return Math.cos(angle) * radius;
     }
-    private int circularYOffset(double angle, double radius) {
-      return (int)Math.round(Math.sin(angle) * radius);
+    private double circularYOffset(double angle, double radius) {
+      return Math.sin(angle) * radius;
     }
     
-    private void fillCenteredCircle(Graphics g, int x, int y, int radius) {
-      int diameter = 2 * radius;
-      g.fillOval(x - radius, y - radius, diameter, diameter);
+    private void fillCenteredCircle(Graphics2D g, double x, double y, double radius) {
+      double diameter = 2.0 * radius;
+      g.fill(new Ellipse2D.Double(x-radius, y-radius, diameter, diameter));
+      //g.fillOval(x - radius, y - radius, diameter, diameter);
     }
     
     private void paintTurtle(Graphics g, Turtle t) {
-      final int RADIUS = 8;
-      final int HEAD_RADIUS = 5;
-      final int LEG_RADIUS = 3;
+      final double RADIUS = 8.0 * t.getSize();
+      final double HEAD_RADIUS = (5.0/8.0) * RADIUS;
+      final double LEG_RADIUS = (3.0/8.0) * RADIUS;
       
       if(!t.isVisible())
         return;
+
+      Graphics2D g2 = (Graphics2D)g;
       
       int xPos = t.getXPos();
       int yPos = t.getYPos();
@@ -255,21 +259,21 @@ public class World {
       g.setColor(limbColor);
       
       //Draw head
-      int headXPos = xPos + circularXOffset(dirRads, RADIUS+2);
-      int headYPos = yPos + circularYOffset(dirRads, RADIUS+2);
-      fillCenteredCircle(g, headXPos, headYPos, HEAD_RADIUS);
+      double headXPos = xPos + circularXOffset(dirRads, RADIUS+(2.0/8.0) * RADIUS);
+      double headYPos = yPos + circularYOffset(dirRads, RADIUS+(2.0/8.0) * RADIUS);
+      fillCenteredCircle(g2, headXPos, headYPos, HEAD_RADIUS);
       
       //Draw legs
       for(int i = 0; i < 4; ++i) {
         double legAngle = dirRads + 2.0 * Math.PI * ((i+1)/5.0);
-        int legXPos = xPos + circularXOffset(legAngle, RADIUS+1);
-        int legYPos = yPos + circularYOffset(legAngle, RADIUS+1);
-        fillCenteredCircle(g, legXPos, legYPos, LEG_RADIUS);
+        double legXPos = xPos + circularXOffset(legAngle, RADIUS+(1.0/8.0) * RADIUS);
+        double legYPos = yPos + circularYOffset(legAngle, RADIUS+(1.0/8.0) * RADIUS);
+        fillCenteredCircle(g2, legXPos, legYPos, LEG_RADIUS);
       }
       
       //Draw body
       g.setColor(color);
-      fillCenteredCircle(g, xPos, yPos, RADIUS);
+      fillCenteredCircle(g2, xPos, yPos, RADIUS);
     }
     
     protected void paintComponent(Graphics g) {
