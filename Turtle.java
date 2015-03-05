@@ -32,6 +32,7 @@ public class Turtle {
   //
   //  Turtle attributes
   //
+  public static final double RADIUS = 8.0;
 
   private int x;
   private int y;
@@ -164,6 +165,25 @@ public class Turtle {
     this.size = size;
 
     updateWorld();
+  }
+
+  /**
+   *  Returns the radius corresponding to the current scaling factor
+   *  of the turtle.
+   *
+   *  @return The radius in pixels as a double.
+   */
+  public double getRadius() {
+    return this.size * RADIUS;
+  }
+
+  /**
+   *  Set the scaling factor corresponding to the specified radius.
+   *
+   *  @param radius The new radius to resize the turtle to.
+   */
+  public void setRadius(double radius) {
+    setSize(radius / RADIUS);
   }
 
   /**

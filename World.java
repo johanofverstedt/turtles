@@ -240,9 +240,9 @@ public class World {
     }
     
     private void paintTurtle(Graphics g, Turtle t) {
-      final double RADIUS = 8.0 * t.getSize();
-      final double HEAD_RADIUS = (5.0/8.0) * RADIUS;
-      final double LEG_RADIUS = (3.0/8.0) * RADIUS;
+      final double RADIUS = Turtle.RADIUS * t.getSize();
+      final double HEAD_RADIUS = (5.0/Turtle.RADIUS) * RADIUS;
+      final double LEG_RADIUS = (3.0/Turtle.RADIUS) * RADIUS;
       
       if(!t.isVisible())
         return;
@@ -259,15 +259,15 @@ public class World {
       g.setColor(limbColor);
       
       //Draw head
-      double headXPos = xPos + circularXOffset(dirRads, RADIUS+(2.0/8.0) * RADIUS);
-      double headYPos = yPos + circularYOffset(dirRads, RADIUS+(2.0/8.0) * RADIUS);
+      double headXPos = xPos + circularXOffset(dirRads, RADIUS+(2.0/Turtle.RADIUS) * RADIUS);
+      double headYPos = yPos + circularYOffset(dirRads, RADIUS+(2.0/Turtle.RADIUS) * RADIUS);
       fillCenteredCircle(g2, headXPos, headYPos, HEAD_RADIUS);
       
       //Draw legs
       for(int i = 0; i < 4; ++i) {
         double legAngle = dirRads + 2.0 * Math.PI * ((i+1)/5.0);
-        double legXPos = xPos + circularXOffset(legAngle, RADIUS+(1.0/8.0) * RADIUS);
-        double legYPos = yPos + circularYOffset(legAngle, RADIUS+(1.0/8.0) * RADIUS);
+        double legXPos = xPos + circularXOffset(legAngle, RADIUS+(1.0/Turtle.RADIUS) * RADIUS);
+        double legYPos = yPos + circularYOffset(legAngle, RADIUS+(1.0/Turtle.RADIUS) * RADIUS);
         fillCenteredCircle(g2, legXPos, legYPos, LEG_RADIUS);
       }
       
