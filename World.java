@@ -314,12 +314,7 @@ public class World {
       Color limbColor = t.getLimbColor();
       
       g.setColor(limbColor);
-      
-      //Draw head
-      double headXPos = xPos + circularXOffset(dirRads, RADIUS+(2.0/Turtle.RADIUS) * RADIUS);
-      double headYPos = yPos + circularYOffset(dirRads, RADIUS+(2.0/Turtle.RADIUS) * RADIUS);
-      fillCenteredCircle(g2, headXPos, headYPos, HEAD_RADIUS);
-      
+
       //Draw legs
       for(int i = 0; i < 4; ++i) {
         double legAngle = dirRads + 2.0 * Math.PI * ((i+1)/5.0);
@@ -328,6 +323,21 @@ public class World {
         fillCenteredCircle(g2, legXPos, legYPos, LEG_RADIUS);
       }
       
+      //Draw head
+      double headXPos = xPos + circularXOffset(dirRads, RADIUS+(2.0/Turtle.RADIUS) * RADIUS);
+      double headYPos = yPos + circularYOffset(dirRads, RADIUS+(2.0/Turtle.RADIUS) * RADIUS);
+      fillCenteredCircle(g2, headXPos, headYPos, HEAD_RADIUS);
+
+      //Draw eyes
+      g.setColor(Color.BLACK);
+      for(int i = 1; i <= 2; ++i) {
+        double angleFraction = (i == 1) ? (-1.0) : (1.0);
+        double eyeAngle = dirRads + 2.0 * Math.PI * (angleFraction / 8.0);
+        double eyeXPos = headXPos + circularXOffset(eyeAngle, HEAD_RADIUS * 0.75);
+        double eyeYPos = headYPos + circularYOffset(eyeAngle, HEAD_RADIUS * 0.75);
+        fillCenteredCircle(g2, eyeXPos, eyeYPos, HEAD_RADIUS * 0.15);
+      }
+
       //Draw body
       g.setColor(color);
       fillCenteredCircle(g2, xPos, yPos, RADIUS);

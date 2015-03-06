@@ -61,7 +61,7 @@ public class SampleProgram {
           t1.enablePath();
       }
 
-      t1.setSize(0.5 + 3.0 * Math.abs(Math.sin(Math.PI * i/50.0)));
+      t1.setRadius(2.0 + 22.0 * Math.abs(Math.sin(Math.PI * i/50.0)));
 
       t1.turn((int)(Math.random() * 100)-50);
       t1.move(3 + (int)(Math.random() * t1.getRadius()));
