@@ -281,7 +281,8 @@ public class Turtle {
    *  Generates a compact string representation of some of the turtle's
    *  attributes.
    *  <p>
-   *  Example: <code>Turtle(x: 57, y: 173, direction: 180, red: 128, green: 57, blue: 34)</code>.
+   *  Example:
+   *  <code>Turtle(x: 57, y: 173, direction: 180, size: 2.00000,red: 128, green: 57, blue: 34)</code>.
    *  </p>
    *
    *  @return The string representation.

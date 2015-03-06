@@ -101,7 +101,10 @@ public class World {
   }
 
   /**
-   *  Returns the update on change flag.
+   *  Returns the current update on change flag.
+   *  
+   *  <p>Update on change causes the world to be redrawn for every
+   *  state change of a Turtle connected to this World.</p>
    *
    *  @return The update on change flag.
    */
@@ -111,6 +114,9 @@ public class World {
 
   /**
    *  Enables update on change.
+   *  
+   *  <p>Update on change causes the world to be redrawn for every
+   *  state change of a Turtle connected to this World.</p>
    */
   public void enableUpdateOnChange() {
     this.updateOnChange = true;
@@ -118,6 +124,9 @@ public class World {
 
   /**
    *  Disables update on change.
+   *  
+   *  <p>Update on change causes the world to be redrawn for every
+   *  state change of a Turtle connected to this World.</p>
    */
   public void disableUpdateOnChange() {
     this.updateOnChange = false;
