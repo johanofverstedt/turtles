@@ -51,6 +51,8 @@ public class SampleProgram {
     
     Thread.sleep(1000);
     
+    w.disableUpdateOnChange();
+
     for(int i = 0; i < 100; ++i) {
       if(i % 20 == 19) {
         if(t1.isPathEnabled())
@@ -63,6 +65,8 @@ public class SampleProgram {
 
       t1.turn((int)(Math.random() * 100)-50);
       t1.move(3 + (int)(Math.random() * t1.getRadius()));
+
+      w.update();
       Thread.sleep(200);
     }
     System.out.println(t1);

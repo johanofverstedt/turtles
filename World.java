@@ -36,7 +36,8 @@ public class World {
   private int height;
   
   private ArrayList<Turtle> turtles;
-  
+  private boolean updateOnChange;
+
   private JFrame frame;
   private WorldCanvas canvas;
   
@@ -63,6 +64,8 @@ public class World {
 
     this.width = width;
     this.height = height;
+
+    this.updateOnChange = true;
     
     this.turtles = new ArrayList<Turtle>(4);
     
@@ -76,7 +79,7 @@ public class World {
    */
   public void remove(Turtle t) {
     if(this.turtles.remove(t))
-      this.repaint();
+      this.turtleUpdate();
   }
   
   /**
@@ -96,11 +99,34 @@ public class World {
   public int getHeight() {
     return this.height;
   }
+
+  /**
+   *  Returns the update on change flag.
+   *
+   *  @return The update on change flag.
+   */
+  public boolean getUpdateOnChange() {
+    return this.updateOnChange;
+  }
+
+  /**
+   *  Enables update on change.
+   */
+  public void enableUpdateOnChange() {
+    this.updateOnChange = true;
+  }
+
+  /**
+   *  Disables update on change.
+   */
+  public void disableUpdateOnChange() {
+    this.updateOnChange = false;
+  }
   
   /**
    *  Forces a repaint of the world.
    */
-  public void repaint() {
+  public void update() {
     this.canvas.repaint();
   }
   
@@ -139,6 +165,14 @@ public class World {
     //surprising behavior.
     if(!this.turtles.contains(t))
       this.turtles.add(t);
+  }
+
+  /**
+   *  Signals that a Turtle has been updated.
+   */
+  void turtleUpdate() {
+    if(updateOnChange)
+      update();
   }
 
   /**

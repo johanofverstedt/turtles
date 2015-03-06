@@ -385,7 +385,7 @@ public class Turtle {
   }
   
   private void updateWorld() {
-    this.world.repaint();  
+    this.world.turtleUpdate();  
   }
   
   //
