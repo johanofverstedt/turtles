@@ -287,14 +287,8 @@ public class Turtle {
    *  @return The string representation.
    */
   public String toString() {
-    String result = "Turtle(" + 
-      "x: " + this.x +
-      ", y: " + this.y +
-      ", direction: " + this.direction +
-      ", red: " + this.color.getRed() +
-      ", green: " + this.color.getGreen() +
-      ", blue: " + this.color.getBlue() +
-      ")";
+    String result = String.format("Turtle {x: %d, y: %d, direction: %d, size: %.5f, red: %d, green: %d, blue: %d}",
+      this.x, this.y, this.direction, this.size, this.color.getRed(), this.color.getGreen(), this.color.getBlue());
     
     return result;
   }

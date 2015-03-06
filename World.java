@@ -135,14 +135,26 @@ public class World {
    *  and all the turtles in it.
    */
   public String toString() {
-    String s = "{World(" + this.width + ", " + this.height + ")";
-    if(this.turtles.isEmpty())
-      return s + "}";
-    s += this.turtles.get(0);
-    for(int i = 0; i < this.turtles.size(); ++i) {
-      s += ", " + this.turtles.get(i);
+    StringBuilder str = new StringBuilder(4096);
+    str.append("World(");
+    str.append(this.width);
+    str.append(", ");
+    str.append(this.height);
+    str.append(") : [");
+
+    if(!this.turtles.isEmpty()) {
+      //Add the first turtle's string rep. to the string
+      str.append(this.turtles.get(0).toString());
+
+      //Add the rest of the turtles' string rep. to the string, comma separated
+      for(int i = 1; i < this.turtles.size(); ++i) {
+        str.append(", ");
+        str.append(this.turtles.get(i).toString());
+      }
     }
-    return s + "}";
+
+    str.append("]");
+    return str.toString();
   }
   
   //
