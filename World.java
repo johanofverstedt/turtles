@@ -133,6 +133,8 @@ public class World {
   /**
    *  Generates a string representation of the world
    *  and all the turtles in it.
+   *
+   *  @return The string representation.
    */
   public String toString() {
     StringBuilder str = new StringBuilder(4096);
