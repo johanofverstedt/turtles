@@ -19,7 +19,8 @@ public class SampleProgram {
     
     Turtle t1 = new Turtle(w); //Create Turtle with default position
     Turtle t2 = new Turtle(w, 100, 120); //Create Turtle with specified position
-    
+    Turtle t3 = new Turtle(w, 300, 300);
+
     t1.move(20);
     t1.turn(45);
     t1.move(20);
@@ -28,6 +29,9 @@ public class SampleProgram {
     t1.turn(45);
     t1.move(20);
     
+    t3.turn(90);
+    t3.move(50);
+
     Thread.sleep(1000);
     
     t1.turn(45);

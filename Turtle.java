@@ -32,7 +32,7 @@ public class Turtle {
   //
   //  Turtle attributes
   //
-  public static final double RADIUS = 8.0;
+  public static final double RADIUS = 10.0;
 
   private int x;
   private int y;
