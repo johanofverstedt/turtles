@@ -114,6 +114,22 @@ public class Turtle {
   public int getDirection() {
     return this.direction;
   }
+
+  /**
+   *  Sets the direction of the tutle in degrees.
+   *  The value is converted to the [0-359] range.
+   *
+   *  @param direction The direction in degrees.
+   */
+  public void setDirection(int direction) {
+    direction = (direction % 360);
+    if(direction < 0)
+      direction += 360;
+
+    this.direction = direction;
+
+    updateWorld();
+  }
   
   public Color getColor() {
     return this.color;
@@ -265,6 +281,15 @@ public double distanceTo(int x, int y) {
     this.direction = (int)Math.round((180.0 / Math.PI) * dirRads);
     
     updateWorld();
+  }
+
+  /**
+   *  Turns the turtle to face the position of another turtle.
+   *
+   *  @param t The turtle to turn towards.
+   */
+  public void turnTo(Turtle t) {
+    turnTo(t.getXPos(), t.getYPos());
   }
   
   private void updateWorld() {
