@@ -12,17 +12,32 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-import java.util.ArrayList;
 import java.awt.*;
-import javax.swing.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import javax.swing.*;
+import java.util.ArrayList;
 
+/**
+ *  World is a class representing an environment for Turtles.
+ *
+ *  The world is visualized as a window, and its size can be
+ *  selected upon construction.
+ *
+ *  As the turtles move around, they are redrawn and they leave
+ *  tracks on the background in the form of their linear path.
+ */
 public class World {
+  //
+  //  World attributes
+  //
+  
   private int width;
   private int height;
   
   private ArrayList<Turtle> turtles;
-  
+  private boolean updateOnChange;
+
   private JFrame frame;
   private WorldCanvas canvas;
   
@@ -49,6 +64,8 @@ public class World {
 
     this.width = width;
     this.height = height;
+
+    this.updateOnChange = true;
     
     this.turtles = new ArrayList<Turtle>(4);
     
@@ -61,7 +78,8 @@ public class World {
    *  @param t A reference to the turtle to remove.
    */
   public void remove(Turtle t) {
-    this.turtles.remove(t);
+    if(this.turtles.remove(t))
+      this.turtleUpdate();
   }
   
   /**
@@ -81,27 +99,73 @@ public class World {
   public int getHeight() {
     return this.height;
   }
+
+  /**
+   *  Returns the current update on change flag.
+   *  
+   *  <p>Update on change causes the world to be redrawn for every
+   *  state change of a Turtle connected to this World.</p>
+   *
+   *  @return The update on change flag.
+   */
+  public boolean getUpdateOnChange() {
+    return this.updateOnChange;
+  }
+
+  /**
+   *  Enables update on change.
+   *  
+   *  <p>Update on change causes the world to be redrawn for every
+   *  state change of a Turtle connected to this World.</p>
+   */
+  public void enableUpdateOnChange() {
+    this.updateOnChange = true;
+  }
+
+  /**
+   *  Disables update on change.
+   *  
+   *  <p>Update on change causes the world to be redrawn for every
+   *  state change of a Turtle connected to this World.</p>
+   */
+  public void disableUpdateOnChange() {
+    this.updateOnChange = false;
+  }
   
   /**
    *  Forces a repaint of the world.
    */
-  public void repaint() {
+  public void update() {
     this.canvas.repaint();
   }
   
   /**
    *  Generates a string representation of the world
    *  and all the turtles in it.
+   *
+   *  @return The string representation.
    */
   public String toString() {
-    String s = "{World(" + width + ", " + height + ")";
-    if(this.turtles.isEmpty())
-      return s + "}";
-    s += turtles.get(0);
-    for(int i = 0; i < turtles.size(); ++i) {
-      s += ", " + turtles.get(i);
+    StringBuilder str = new StringBuilder(4096);
+    str.append("World(");
+    str.append(this.width);
+    str.append(", ");
+    str.append(this.height);
+    str.append(") : [");
+
+    if(!this.turtles.isEmpty()) {
+      //Add the first turtle's string rep. to the string
+      str.append(this.turtles.get(0).toString());
+
+      //Add the rest of the turtles' string rep. to the string, comma separated
+      for(int i = 1; i < this.turtles.size(); ++i) {
+        str.append(", ");
+        str.append(this.turtles.get(i).toString());
+      }
     }
-    return s + "}";
+
+    str.append("]");
+    return str.toString();
   }
   
   //
@@ -119,7 +183,19 @@ public class World {
     if(t == null)
       throw new RuntimeException("Can't add a null turtle reference to the world.");
 
-    this.turtles.add(t);
+    //Only add the turtle if it doesn't already exist
+    //in the world to bulletproof the class against
+    //surprising behavior.
+    if(!this.turtles.contains(t))
+      this.turtles.add(t);
+  }
+
+  /**
+   *  Signals that a Turtle has been updated.
+   */
+  void turtleUpdate() {
+    if(updateOnChange)
+      update();
   }
 
   /**
@@ -142,16 +218,16 @@ public class World {
     this.frame = new JFrame(worldTitle);
     
     this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    frame.setResizable(false);
-    frame.setLocation(10, 10);
+    this.frame.setResizable(false);
+    this.frame.setLocation(10, 10);
 
     this.canvas = new WorldCanvas(this.width, this.height, this.turtles);
     
-    frame.add(this.canvas);
-    frame.pack();
-    frame.setVisible(true);
+    this.frame.add(this.canvas);
+    this.frame.pack();
+    this.frame.setVisible(true);
 
-    frame.repaint();
+    this.frame.repaint();
   }
   
   /**
@@ -179,16 +255,16 @@ public class World {
     //
     
     public void clear() {
-      Graphics2D g = img.createGraphics();
+      Graphics2D g = this.img.createGraphics();
       
       g.setColor(this.bgrColor);
-      g.fillRect(0, 0, img.getWidth(), img.getHeight());
+      g.fillRect(0, 0, this.img.getWidth(), this.img.getHeight());
       
       g.dispose();
     }
     
     public void drawLine(int x1, int y1, int x2, int y2, Color color) {
-      Graphics2D g = img.createGraphics();
+      Graphics2D g = this.img.createGraphics();
       
       //Enable anti-aliasing to make the lines look pretty
       Object previousAntiAliasHint = g.getRenderingHint(RenderingHints.KEY_ANTIALIASING);
@@ -207,26 +283,28 @@ public class World {
     //  Methods for redrawing to the screen
     //
     
-    private int circularXOffset(double angle, double radius) {
-      return (int)Math.round(Math.cos(angle) * radius);
+    private double circularXOffset(double angle, double radius) {
+      return Math.cos(angle) * radius;
     }
-    private int circularYOffset(double angle, double radius) {
-      return (int)Math.round(Math.sin(angle) * radius);
+    private double circularYOffset(double angle, double radius) {
+      return Math.sin(angle) * radius;
     }
     
-    private void fillCenteredCircle(Graphics g, int x, int y, int size) {
-      int halfSize = size / 2;
-      g.fillOval(x - halfSize, y - halfSize, size, size);
+    private void fillCenteredCircle(Graphics2D g, double x, double y, double radius) {
+      double diameter = 2.0 * radius;
+      g.fill(new Ellipse2D.Double(x-radius, y-radius, diameter, diameter));
+      //g.fillOval(x - radius, y - radius, diameter, diameter);
     }
     
     private void paintTurtle(Graphics g, Turtle t) {
-      final int SIZE = 16;
-      final int HALF_SIZE = SIZE / 2;
-      final int HEAD_SIZE = 10;
-      final int LEG_SIZE = 6;
+      final double RADIUS = Turtle.RADIUS * t.getSize();
+      final double HEAD_RADIUS = (5.0/Turtle.RADIUS) * RADIUS;
+      final double LEG_RADIUS = (3.0/Turtle.RADIUS) * RADIUS;
       
       if(!t.isVisible())
         return;
+
+      Graphics2D g2 = (Graphics2D)g;
       
       int xPos = t.getXPos();
       int yPos = t.getYPos();
@@ -236,23 +314,33 @@ public class World {
       Color limbColor = t.getLimbColor();
       
       g.setColor(limbColor);
-      
-      //Draw head
-      int headXPos = xPos + circularXOffset(dirRads, HALF_SIZE+2);
-      int headYPos = yPos + circularYOffset(dirRads, HALF_SIZE+2);
-      fillCenteredCircle(g, headXPos, headYPos, HEAD_SIZE);
-      
+
       //Draw legs
       for(int i = 0; i < 4; ++i) {
         double legAngle = dirRads + 2.0 * Math.PI * ((i+1)/5.0);
-        int legXPos = xPos + circularXOffset(legAngle, HALF_SIZE+1);
-        int legYPos = yPos + circularYOffset(legAngle, HALF_SIZE+1);
-        fillCenteredCircle(g, legXPos, legYPos, LEG_SIZE);
+        double legXPos = xPos + circularXOffset(legAngle, RADIUS+(1.0/Turtle.RADIUS) * RADIUS);
+        double legYPos = yPos + circularYOffset(legAngle, RADIUS+(1.0/Turtle.RADIUS) * RADIUS);
+        fillCenteredCircle(g2, legXPos, legYPos, LEG_RADIUS);
       }
       
+      //Draw head
+      double headXPos = xPos + circularXOffset(dirRads, RADIUS+(2.0/Turtle.RADIUS) * RADIUS);
+      double headYPos = yPos + circularYOffset(dirRads, RADIUS+(2.0/Turtle.RADIUS) * RADIUS);
+      fillCenteredCircle(g2, headXPos, headYPos, HEAD_RADIUS);
+
+      //Draw eyes
+      g.setColor(Color.BLACK);
+      for(int i = 1; i <= 2; ++i) {
+        double angleFraction = (i == 1) ? (-1.0) : (1.0);
+        double eyeAngle = dirRads + 2.0 * Math.PI * (angleFraction / 8.0);
+        double eyeXPos = headXPos + circularXOffset(eyeAngle, HEAD_RADIUS * 0.75);
+        double eyeYPos = headYPos + circularYOffset(eyeAngle, HEAD_RADIUS * 0.75);
+        fillCenteredCircle(g2, eyeXPos, eyeYPos, HEAD_RADIUS * 0.15);
+      }
+
       //Draw body
       g.setColor(color);
-      fillCenteredCircle(g, xPos, yPos, SIZE);
+      fillCenteredCircle(g2, xPos, yPos, RADIUS);
     }
     
     protected void paintComponent(Graphics g) {

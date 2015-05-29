@@ -15,15 +15,31 @@
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ *  Turtle is a class representing a fun-loving reptile residing in
+ *  a World. It contains attributes for x and y position, direction, color, etc.
+ *
+ *  The turtle is dynamic and can be moved, turned, made (in)visible,
+ *  re-colored, etc.
+ *
+ *  Responsibility for drawing the turtle according to its
+ *  attributes belong to the World-class.
+ *
+ *  The idea is to allow expansion of its capabilities by writing
+ *  additional methods for more complex behavior and operations.
+ */
 public class Turtle {
   //
   //  Turtle attributes
   //
+  public static final double RADIUS = 10.0;
 
   private int x;
   private int y;
   private int direction;
   
+  private double size = 1.0;
+
   private Color color;
   private Color limbColor;
   
@@ -81,7 +97,7 @@ public class Turtle {
     w.add(this);
     
     //Redraw the world to immediately display the new turtle!
-    this.updateWorld();
+    updateWorld();
   }
   
   //
@@ -89,7 +105,7 @@ public class Turtle {
   //
   
   /**
-   *  Gets the World-object associated with this turtle.
+   *  Returns the {@link World} associated with this turtle.
    *
    *  @return The world.
    */
@@ -97,17 +113,27 @@ public class Turtle {
     return this.world;
   }
   
+  /**
+   *  Returns the x-coordinate of the turtle.
+   *
+   *  @return X-coordinate as an integer.
+   */
   public int getXPos() {
     return this.x;
   }
   
+  /**
+   *  Returns the y-coordinate of the turtle.
+   *
+   *  @return Y-coordinate as an integer.
+   */
   public int getYPos() {
     return this.y;
   }
   
   /**
-   *  Gets the direction of the turtle in degrees.
-   *  The value is guaranteed to be in domain [0-359].
+   *  Returns the direction of the turtle in degrees.
+   *  The value is guaranteed to be in domain <code>[0-359]</code>.
    *
    *  @return The direction in degrees.
    */
@@ -131,10 +157,65 @@ public class Turtle {
     updateWorld();
   }
   
+  /**
+   *  Returns the scaling factor for the turtle where 1.0
+   *  is the default size and 2.0 is double the default size
+   *  and 0.5 is half the default size.
+   *
+   *  @return Scaling factor of the turtle.
+   */
+  public double getSize() {
+    return this.size;
+  }
+
+  /**
+   *  Sets the scaling factor for the turtle where 1.0
+   *  is the default size and 2.0 is double the default size
+   *  and 0.5 is half the default size.
+   *
+   *  @param size Scaling factor of the turtle.
+   */
+  public void setSize(double size) {
+    if(size < 0.0)
+      size = 0.0;
+    this.size = size;
+
+    updateWorld();
+  }
+
+  /**
+   *  Returns the radius corresponding to the current scaling factor
+   *  of the turtle.
+   *
+   *  @return The radius in pixels as a double.
+   */
+  public double getRadius() {
+    return this.size * RADIUS;
+  }
+
+  /**
+   *  Set the scaling factor corresponding to the specified radius.
+   *
+   *  @param radius The new radius to resize the turtle to.
+   */
+  public void setRadius(double radius) {
+    setSize(radius / RADIUS);
+  }
+
+  /**
+   *  Returns the main {@link Color} of the turtle (used to draw its body).
+   *
+   *  @return The color of the body.
+   */
   public Color getColor() {
     return this.color;
   }
   
+  /**
+   *  Returns the {@link Color} of the turtle's limbs (head and legs).
+   *
+   *  @return The color of the limbs.
+   */
   public Color getLimbColor() {
     return this.limbColor;
   }
@@ -149,8 +230,15 @@ public class Turtle {
   public void setColor(int red, int green, int blue) {
     this.color = new Color(red, green, blue);
     this.limbColor = this.color.brighter();
+
+    updateWorld();
   }
   
+  /**
+   *  Returns <code>true</code> if the turtle is visible and <code>false</code> if it's invisible.
+   *
+   *  @return Visibility flag as a boolean.
+   */
   public boolean isVisible() {
     return this.visible;
   }
@@ -162,16 +250,29 @@ public class Turtle {
    */
   public void setVisible(boolean visible) {
     this.visible = visible;
-  }
+ 
+    updateWorld();
+ }
   
+  /**
+   *  Returns <code>true</code> if path drawing is enabled and <code>false</code> if it's disabled.
+   *
+   *  @return Path drawing flag as a boolean.
+   */
   public boolean isPathEnabled() {
     return this.drawPathFlag;
   }
   
+  /**
+   *  Enables drawing of the path when the turtle moves.
+   */
   public void enablePath() {
     this.drawPathFlag = true;
   }
   
+  /**
+   *  Disables drawing of the path when the turtle moves.
+   */
   public void disablePath() {
     this.drawPathFlag = false;
   }
@@ -185,27 +286,26 @@ public class Turtle {
    *
    *  @return The Euclidean distance as a double.
    */
-public double distanceTo(int x, int y) {
-  double xDelta = this.x - x;
-  double yDelta = this.y - y;
+  public double distanceTo(int x, int y) {
+    double xDelta = this.x - x;
+    double yDelta = this.y - y;
 
-  return Math.sqrt(xDelta*xDelta + yDelta*yDelta);
-}
+    return Math.sqrt(xDelta*xDelta + yDelta*yDelta);
+  }
 
   /**
-   *  Generates a compact string representation of the turtle.
+   *  Generates a compact string representation of some of the turtle's
+   *  attributes.
+   *  <p>
+   *  Example:
+   *  <code>Turtle(x: 57, y: 173, direction: 180, size: 2.00000,red: 128, green: 57, blue: 34)</code>.
+   *  </p>
    *
    *  @return The string representation.
    */
   public String toString() {
-    String result = "Turtle(" + 
-      "x: " + this.x +
-      ", y: " + this.y +
-      ", direction: " + this.direction +
-      ", red: " + this.color.getRed() +
-      ", green: " + this.color.getGreen() +
-      ", blue: " + this.color.getBlue() +
-      ")";
+    String result = String.format("Turtle {x: %d, y: %d, direction: %d, size: %.5f, red: %d, green: %d, blue: %d}",
+      this.x, this.y, this.direction, this.size, this.color.getRed(), this.color.getGreen(), this.color.getBlue());
     
     return result;
   }
@@ -217,13 +317,25 @@ public double distanceTo(int x, int y) {
   /**
    *  Repositions the turtle to the given x- and y-coordinates.
    *  moveTo is the basic movement method which all other movement methods
-   *  should call. Handles drawing of the turtle path, keeping the turtle
-   *  inside the world and world redrawing.
+   *  should call.
+   *  <p>
+   *  When moveTo is called, the following actions are performed:
+   *  </p>
+   *  <ul>
+   *  <li>
+   *    Clamp the position so that the turtle remains inside the world.
+   *  </li>
+   *  <li>
+   *    Draw the turtle's path from the old to new position (if paths are enabled).
+   *  </li>
+   *  <li>
+   *    Redraw the world to display the changes immediately.
+   *  </li>
+   *  </ul>
    *
-   *  @param x X-coordinate the turtle will go to.
-   *  @param y Y-coordinate the turtle will go to.
+   *  @param x X-coordinate the turtle will move to.
+   *  @param y Y-coordinate the turtle will move to.
    */
-  
   public void moveTo(int x, int y) {
     int xOld = this.x;
     int yOld = this.y;
@@ -293,7 +405,7 @@ public double distanceTo(int x, int y) {
   }
   
   private void updateWorld() {
-    this.world.repaint();  
+    this.world.turtleUpdate();  
   }
   
   //
