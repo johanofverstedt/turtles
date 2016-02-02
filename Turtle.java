@@ -12,8 +12,7 @@
  * PERFORMANCE OF THIS SOFTWARE.
  */
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
 
 /**
  *  Turtle is a class representing a fun-loving reptile residing in
@@ -38,7 +37,7 @@ public class Turtle {
   private int y;
   private int direction;
   
-  private double size = 1.0;
+  private float size = 1.0f;
 
   private Color color;
   private Color limbColor;
@@ -165,7 +164,7 @@ public class Turtle {
    *  @return Scaling factor of the turtle.
    */
   public double getSize() {
-    return this.size;
+    return (double)this.size;
   }
 
   /**
@@ -178,7 +177,7 @@ public class Turtle {
   public void setSize(double size) {
     if(size < 0.0)
       size = 0.0;
-    this.size = size;
+    this.size = (float)size;
 
     updateWorld();
   }
@@ -372,9 +371,12 @@ public class Turtle {
     //and restrict the stored direction to
     //a domain of 0-359
     degrees = (degrees % 360);
-    this.direction = (this.direction + degrees) % 360;
-    if(this.direction < 0)
-      this.direction += 360;
+    int newDirection = (this.direction + degrees) % 360;
+    
+    if(newDirection < 0)
+      newDirection += 360;
+
+    this.direction = newDirection;
     
     updateWorld();
   }

@@ -16,7 +16,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *  World is a class representing an environment for Turtles.
@@ -35,7 +35,7 @@ public class World {
   private int width;
   private int height;
   
-  private ArrayList<Turtle> turtles;
+  private CopyOnWriteArrayList<Turtle> turtles;
   private boolean updateOnChange;
 
   private JFrame frame;
@@ -67,7 +67,7 @@ public class World {
 
     this.updateOnChange = true;
     
-    this.turtles = new ArrayList<Turtle>(4);
+    this.turtles = new CopyOnWriteArrayList<Turtle>();
     
     createWindow();
   }
@@ -78,8 +78,9 @@ public class World {
    *  @param t A reference to the turtle to remove.
    */
   public void remove(Turtle t) {
-    if(this.turtles.remove(t))
-      this.turtleUpdate();
+    boolean result = this.turtles.remove(t);
+    if(result)
+      this.turtleUpdate(); 
   }
   
   /**
@@ -219,7 +220,7 @@ public class World {
     
     this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     this.frame.setResizable(false);
-    this.frame.setLocation(10, 10);
+    this.frame.setLocation(32, 32);
 
     this.canvas = new WorldCanvas(this.width, this.height, this.turtles);
     
@@ -238,9 +239,9 @@ public class World {
   private class WorldCanvas extends JPanel {
     private BufferedImage img;
     private Color bgrColor;
-    private ArrayList<Turtle> turtles;
+    private CopyOnWriteArrayList<Turtle> turtles;
     
-    WorldCanvas(int width, int height, ArrayList<Turtle> turtles) {
+    WorldCanvas(int width, int height, CopyOnWriteArrayList<Turtle> turtles) {
       this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
       this.bgrColor = new Color(255, 255, 255);
       this.turtles = turtles;
