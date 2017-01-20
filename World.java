@@ -240,7 +240,8 @@ public class World {
     private BufferedImage img;
     private Color bgrColor;
     private CopyOnWriteArrayList<Turtle> turtles;
-    
+    private static final long serialVersionUID = 42L;
+
     WorldCanvas(int width, int height, CopyOnWriteArrayList<Turtle> turtles) {
       this.img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
       this.bgrColor = new Color(255, 255, 255);
